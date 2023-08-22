@@ -1,0 +1,17 @@
+.report-list-form {
+  padding: 15px;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  padding: 16px 30px;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th {
+  text-align: center;
+}
+
+.report-space {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}

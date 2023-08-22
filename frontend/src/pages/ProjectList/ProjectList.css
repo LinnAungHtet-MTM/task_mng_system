@@ -1,0 +1,30 @@
+.projectlist-form {
+  padding: 15px;
+}
+
+.project-space {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.projectlist-table {
+  padding: 0px 15px;
+}
+
+.ant-table-thead > tr > th {
+  background-color: var(--primary-color) !important;
+  color: #ffff !important;
+}
+
+.ant-table-column-sorter-up {
+  color: #ffff !important;
+}
+
+.ant-table-column-sorter-down {
+  color: #ffff !important;
+}
+
+.input-field {
+  display: flex;
+}

@@ -1,0 +1,17 @@
+.footer-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.footer-container {
+  margin-top: auto;
+  background-color: #fff;
+  color: #08979c;
+  font-weight: bold;
+}
+
+.ant-layout-footer {
+  padding: 24px 20px;
+}

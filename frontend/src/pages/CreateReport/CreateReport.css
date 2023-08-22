@@ -1,0 +1,31 @@
+p {
+  margin-bottom: 10px;
+}
+
+.report-required {
+  margin-left: 5px;
+  font-size: 15px;
+  color: red;
+}
+
+.report-table .ant-form-item {
+  margin-bottom: 0px;
+}
+
+.report-table .ant-form-item-explain-error {
+  width: 150px;
+}
+
+.ant-modal .ant-modal-footer {
+  text-align: center;
+}
+
+.btn-box {
+  margin-bottom: 15px;
+}
+
+@media only screen and (max-width: 580px) {
+  .btn-box {
+    margin-bottom: 25px;
+  }
+}

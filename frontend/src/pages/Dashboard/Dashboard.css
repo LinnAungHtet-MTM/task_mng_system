@@ -1,0 +1,61 @@
+.dashboard {
+  overflow: hidden;
+}
+
+.card-box {
+  text-align: center;
+  color: #111111;
+}
+
+.ant-card {
+  transition: all 0.2s linear;
+}
+
+.ant-card:hover {
+  box-shadow: #15995749 0px 5px 15px;
+}
+
+.first-card {
+  background: #159957;
+  background: -webkit-linear-gradient(to right, #83a8ca, #6ee4a9);
+  background: linear-gradient(to right, #83a8ca, #6ee4a9);
+}
+
+.second-card {
+  background: #159957;
+  background: -webkit-linear-gradient(to right, #6ee4a9, #83a8ca);
+  background: linear-gradient(to right, #6ee4a9, #83a8ca);
+}
+
+.third-card {
+  background: #159957;
+  background: -webkit-linear-gradient(to right, #71a6d6, #e0bc7e);
+  background: linear-gradient(to right, #71a6d6, #e0bc7e);
+}
+
+.fourth-card {
+  background: #159957;
+  background: -webkit-linear-gradient(to right, #e0bc7e, #8ad7e1);
+  background: linear-gradient(to right, #e0bc7e, #8ad7e1);
+}
+
+.card-icon {
+  font-size: 30px;
+}
+
+.card-text {
+  margin: 7px 0;
+  font-size: 18px;
+}
+
+.custom-tag {
+  min-width: 30px;
+  padding: 5px 12px;
+  min-height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #dee1ec;
+  color: crimson;
+}

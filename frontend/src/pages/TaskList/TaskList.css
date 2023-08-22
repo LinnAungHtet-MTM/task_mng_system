@@ -1,0 +1,15 @@
+.task-list-form {
+  padding: 15px;
+}
+
+.task-space {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 1200px) {
+  task-list-select {
+    padding: 15px;
+  }
+}

@@ -1,0 +1,39 @@
+.employee-create {
+  min-width: 600px;
+  margin: 20px auto;
+  background-color: #faf9f9;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
+.employee-title {
+  padding-top: 18px;
+  margin-left: 15px;
+}
+
+.ant-divider-horizontal {
+  margin: 18px 0;
+}
+
+.employee-errorbox .ant-modal-title {
+  font-size: 30px !important;
+}
+
+@media only screen and (max-width: 630px) {
+  .employee-create {
+    min-width: 485px;
+  }
+}
+
+@media only screen and (max-width: 510px) {
+  .employee-create {
+    min-width: 400px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .employee-create {
+    min-width: 290px;
+  }
+}
