@@ -1,2 +1,2 @@
 import { io } from "socket.io-client";
-export const socket = io("https://deploy-vercel-backend.vercel.app");
+export const socket = io("http://localhost:8080");
