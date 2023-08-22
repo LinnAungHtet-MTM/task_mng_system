@@ -1,23 +1,20 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const body_parser_1 = __importDefault(require("body-parser"));
-const projectRoute_1 = __importDefault(require("./src/routes/projectRoute"));
-const employeeRoute_1 = __importDefault(require("./src/routes/employeeRoute"));
-const taskRoute_1 = __importDefault(require("./src/routes/taskRoute"));
-const reportRoute_1 = __importDefault(require("./src/routes/reportRoute"));
-const authRoute_1 = __importDefault(require("./src/routes/authRoute"));
-const notiRoute_1 = __importDefault(require("./src/routes/notiRoute"));
-const notiTaskRoute_1 = __importDefault(require("./src/routes/notiTaskRoute"));
+const dotenv_1 = require("dotenv");
+const express_1 = require("express");
+const mongoose_1 = require("mongoose");
+const body_parser_1 = require("body-parser");
+const projectRoute_1 = require("./src/routes/projectRoute");
+const employeeRoute_1 = require("./src/routes/employeeRoute");
+const taskRoute_1 = require("./src/routes/taskRoute");
+const reportRoute_1 = require("./src/routes/reportRoute");
+const authRoute_1 = require("./src/routes/authRoute");
+const notiRoute_1 = require("./src/routes/notiRoute");
+const notiTaskRoute_1 = require("./src/routes/notiTaskRoute");
 const cloudinary_1 = require("cloudinary");
-const http_1 = __importDefault(require("http"));
-const cors_1 = __importDefault(require("cors"));
-const socket_1 = require("./socket");
+const http_1 = require("http");
+const cors_1 = require("cors");
+const socket_1 = require("socket");
 dotenv_1.default.config();
 cloudinary_1.v2.config({
     cloud_name: "dvgny2fza",
@@ -47,4 +44,3 @@ mongoose_1.default
     server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 })
     .catch((error) => console.log(`${error} did not connect to database`));
-//# sourceMappingURL=index.js.map

@@ -23,4 +23,3 @@ const configSocket = (socket) => {
     });
 };
 exports.configSocket = configSocket;
-//# sourceMappingURL=socket.js.map
