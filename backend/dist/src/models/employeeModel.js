@@ -14,4 +14,3 @@ const employeeSchema = new mongoose_1.Schema({
     verified: { type: Boolean },
 });
 exports.default = (0, mongoose_1.model)("employee", employeeSchema);
-//# sourceMappingURL=employeeModel.js.map

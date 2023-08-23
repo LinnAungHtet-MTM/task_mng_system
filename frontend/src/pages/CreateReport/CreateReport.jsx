@@ -448,6 +448,12 @@ const CreateReport = () => {
       setShowReport(true);
       return;
     }
+    if (totalHour < 8) {
+      setDialogMsg(commonConstants.TotalHr_fill);
+      setHour(true);
+      setShowReport(true);
+      return;
+    }
     if (totalHour === 8) {
       setHour(false);
     }
@@ -626,7 +632,7 @@ const CreateReport = () => {
               ))}
               <p>【実績】</p>
               <p>
-                - <strong>{feeling}</strong>
+                - <strong>{feeling ? feeling : "Nothing"}</strong>
               </p>
             </Modal>
             <Button

@@ -10,4 +10,3 @@ router.get("/list", notiController_1.getAllNoti);
 router.post("/add", notiController_1.createNoti);
 router.put("/edit/:id", notiController_1.updateNoti);
 exports.default = router;
-//# sourceMappingURL=notiRoute.js.map

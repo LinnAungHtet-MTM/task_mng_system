@@ -20,7 +20,6 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             return res.status(401).json({ message: "Access Denied." });
         }
         if (typeof token === "string" && token.startsWith("Bearer ")) {
-            // token = token.split(" ")[1];
             const tokenValue = token.split(" ")[1];
             const verified = jsonwebtoken_1.default.verify(tokenValue, process.env.JWT_SECRET);
             req.body["userToken"] = verified;
@@ -32,4 +31,3 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.default = verifyToken;
-//# sourceMappingURL=verifyToken.js.map

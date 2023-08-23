@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -165,6 +166,10 @@ const Dashboard = () => {
     },
   ];
 
+  const user = localStorage.getItem("user");
+  const { token } = JSON.parse(user);
+  const admin = jwt(token);
+
   useEffect(() => {
     setVerifyPage(false);
     employee.getAll().then((res) => setEmployeeData(res.data.data));
@@ -173,29 +178,58 @@ const Dashboard = () => {
     task
       .getAll()
       .then((res) => {
-        const tasks = res.data.data.map((task) => {
-          return {
-            ...task,
-            key: task._id,
-            project_name: task.project_name.projectName,
-            assigned_employee: task.assigned_employee.employeeName,
-            estimate_start_date: task.estimate_start_date
-              ? task.estimate_start_date
-              : "-",
-            estimate_finish_date: task.estimate_finish_date
-              ? task.estimate_finish_date
-              : "-",
-            actual_start_date: task.actual_start_date
-              ? task.actual_start_date
-              : "-",
-            actual_finish_date: task.actual_finish_date
-              ? task.actual_finish_date
-              : "-",
-          };
-        });
-        setLoading(false);
-        setTaskData(tasks);
-        setFilterData(tasks);
+        if (admin.type === "0") {
+          const tasks = res.data.data.map((task) => {
+            return {
+              ...task,
+              key: task._id,
+              project_name: task.project_name.projectName,
+              assigned_employee: task.assigned_employee.employeeName,
+              estimate_start_date: task.estimate_start_date
+                ? task.estimate_start_date
+                : "-",
+              estimate_finish_date: task.estimate_finish_date
+                ? task.estimate_finish_date
+                : "-",
+              actual_start_date: task.actual_start_date
+                ? task.actual_start_date
+                : "-",
+              actual_finish_date: task.actual_finish_date
+                ? task.actual_finish_date
+                : "-",
+            };
+          });
+          setLoading(false);
+          setTaskData(tasks);
+          setFilterData(tasks);
+        } else {
+          const tasks = res.data.data.filter(
+            (data) => data.assigned_employee._id === admin.userId
+          );
+          const taskData = tasks.map((task) => {
+            return {
+              ...task,
+              key: task._id,
+              project_name: task.project_name.projectName,
+              assigned_employee: task.assigned_employee.employeeName,
+              estimate_start_date: task.estimate_start_date
+                ? task.estimate_start_date
+                : "-",
+              estimate_finish_date: task.estimate_finish_date
+                ? task.estimate_finish_date
+                : "-",
+              actual_start_date: task.actual_start_date
+                ? task.actual_start_date
+                : "-",
+              actual_finish_date: task.actual_finish_date
+                ? task.actual_finish_date
+                : "-",
+            };
+          });
+          setLoading(false);
+          setTaskData(taskData);
+          setFilterData(taskData);
+        }
       })
       .catch((err) => {
         if (err.code === "ERR_NETWORK") {
@@ -213,10 +247,6 @@ const Dashboard = () => {
     const filterStatus = taskData.filter((data) => data.status !== "3");
     setFilterData(filterStatus);
   }, [taskData]);
-
-  const user = localStorage.getItem("user");
-  const { token } = JSON.parse(user);
-  const admin = jwt(token);
 
   return (
     <>

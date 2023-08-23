@@ -31,4 +31,3 @@ const dropEmployee = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     (0, employeeService_1.dropEmployeeService)(req, res, next);
 });
 exports.dropEmployee = dropEmployee;
-//# sourceMappingURL=employeeController.js.map

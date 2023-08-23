@@ -13,4 +13,3 @@ router.post("/add", [verifyToken_1.default, projectController_1.createProject]);
 router.put("/edit/:id", [verifyToken_1.default, projectController_1.updateProject]);
 router.delete("/delete/:id", [verifyToken_1.default, projectController_1.dropProject]);
 exports.default = router;
-//# sourceMappingURL=projectRoute.js.map

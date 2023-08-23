@@ -61,4 +61,3 @@ const updateNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.updateNotiService = updateNotiService;
-//# sourceMappingURL=notiService.js.map

@@ -21,4 +21,3 @@ router.put("/edit/:id", [
 ]);
 router.delete("/delete/:id", [verifyToken_1.default, employeeController_1.dropEmployee]);
 exports.default = router;
-//# sourceMappingURL=employeeRoute.js.map

@@ -47,4 +47,3 @@ mongoose_1.default
     server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 })
     .catch((error) => console.log(`${error} did not connect to database`));
-//# sourceMappingURL=index.js.map

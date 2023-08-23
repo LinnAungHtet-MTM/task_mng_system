@@ -38,6 +38,7 @@ const Login = () => {
         } else if (err.code === "ERR_NETWORK") {
           setOpen(true);
           setDialogMsg(commonConstants.Network_Err);
+          setLoading(false);
         }
       });
   };

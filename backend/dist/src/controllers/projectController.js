@@ -31,4 +31,3 @@ const dropProject = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     (0, projectService_1.dropProjectService)(req, res, next);
 });
 exports.dropProject = dropProject;
-//# sourceMappingURL=projectController.js.map

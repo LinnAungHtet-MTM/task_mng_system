@@ -27,4 +27,3 @@ const updateTask = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     (0, taskService_1.updateTaskService)(req, res, next);
 });
 exports.updateTask = updateTask;
-//# sourceMappingURL=taskController.js.map

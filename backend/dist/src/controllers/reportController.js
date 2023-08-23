@@ -23,4 +23,3 @@ const dropReport = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     (0, reportService_1.dropReportServices)(req, res, next);
 });
 exports.dropReport = dropReport;
-//# sourceMappingURL=reportController.js.map

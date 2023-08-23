@@ -23,4 +23,3 @@ const updateTaskNoti = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     (0, notiTaskService_1.updateTaskNotiService)(req, res, next);
 });
 exports.updateTaskNoti = updateTaskNoti;
-//# sourceMappingURL=notiTaskController.js.map

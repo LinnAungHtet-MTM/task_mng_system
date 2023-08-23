@@ -11,4 +11,3 @@ router.get("/list", [verifyToken_1.default, reportController_1.getAllReport]);
 router.post("/add", [verifyToken_1.default, reportController_1.createReport]);
 router.delete("/delete/:id", [verifyToken_1.default, reportController_1.dropReport]);
 exports.default = router;
-//# sourceMappingURL=reportRoute.js.map

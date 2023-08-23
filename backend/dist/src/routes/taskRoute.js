@@ -12,4 +12,3 @@ router.post("/add", [verifyToken_1.default, taskController_1.createTask]);
 router.get("/:id", [verifyToken_1.default, taskController_1.getTask]);
 router.put("/edit/:id", [verifyToken_1.default, taskController_1.updateTask]);
 exports.default = router;
-//# sourceMappingURL=taskRoute.js.map

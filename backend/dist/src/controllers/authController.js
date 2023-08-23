@@ -31,4 +31,3 @@ const verifyAccount = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     (0, authService_1.verifyAccountService)(req, res, next);
 });
 exports.verifyAccount = verifyAccount;
-//# sourceMappingURL=authController.js.map

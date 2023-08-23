@@ -19,4 +19,3 @@ const taskSchema = new mongoose_1.Schema({
     actual_finish_date: { type: String },
 });
 exports.default = (0, mongoose_1.model)("task", taskSchema);
-//# sourceMappingURL=taskModel.js.map

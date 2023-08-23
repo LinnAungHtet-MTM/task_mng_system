@@ -9,9 +9,5 @@ const notiSchema = new mongoose_1.Schema({
     unread: { type: String, default: true },
     userId: { type: String, required: true },
     reportToUserName: { type: String },
-    // assignEmployeeId: { type: String },
-    // taskCreated: { type: String },
-    // status: { type: String, required: true },
 });
 exports.default = (0, mongoose_1.model)("notification", notiSchema);
-//# sourceMappingURL=socketModel.js.map

@@ -52,7 +52,7 @@ const Navbar = () => {
         setLoginProfile(res.data.data.profile);
       });
     }
-  }, [user]);
+  }, [user, location]);
 
   const filterMenu = menuItems.filter((data) => data.position === "Member");
 
@@ -149,36 +149,64 @@ const Navbar = () => {
   useEffect(() => {
     if (user) {
       try {
+        // const loggedUser = JSON.parse(user);
+        // const userType = jwt(loggedUser.token);
+        // taskNoti.getAll().then((res) => {
+        //   if (res.data.data[0].status === "task") {
+        //     const taskNoti = res.data.data;
+        //     const filterTaskData = taskNoti.filter(
+        //       (data) =>
+        //         data.userId !== loggedUser.userId &&
+        //         (data.assignEmployeeId === loggedUser.userId ||
+        //           userType.type === "0") &&
+        //         data.unread !== "false"
+        //     );
+        //     setNotiData(filterTaskData);
+        //     setNotiCount(filterTaskData.length);
+        //   } else {
+        //     return;
+        //   }
+        // });
+        // noti.getAll().then((res) => {
+        //   const notifications = res.data.data;
+        //   const filterData = notifications.filter(
+        //     (data) =>
+        //       data.userId !== loggedUser.userId &&
+        //       data.reportToUserName === loginUser &&
+        //       data.unread !== "false"
+        //   );
+        //   setNotiData(filterData);
+        //   setNotiCount(filterData.length);
+        // });
         const loggedUser = JSON.parse(user);
         const userType = jwt(loggedUser.token);
-        taskNoti.getAll().then((res) => {
-          if (res.data.data[0].status === "task") {
-            const taskNoti = res.data.data;
-            const filterTaskData = taskNoti.filter(
+
+        Promise.all([taskNoti.getAll(), noti.getAll()])
+          .then(([taskNotiResponse, notiResponse]) => {
+            const taskNotiData = taskNotiResponse.data.data;
+            const notiData = notiResponse.data.data;
+
+            const filterTaskData = taskNotiData.filter(
               (data) =>
                 data.userId !== loggedUser.userId &&
                 (data.assignEmployeeId === loggedUser.userId ||
                   userType.type === "0") &&
                 data.unread !== "false"
             );
-            setNotiData(filterTaskData);
-            setNotiCount(filterTaskData.length);
-          } else {
-            return;
-          }
-        });
-        noti.getAll().then((res) => {
-          const notifications = res.data.data;
 
-          const filterData = notifications.filter(
-            (data) =>
-              data.userId !== loggedUser.userId &&
-              data.reportToUserName === loginUser &&
-              data.unread !== "false"
-          );
-          setNotiData(filterData);
-          setNotiCount(filterData.length);
-        });
+            const filterNotiData = notiData.filter(
+              (data) =>
+                data.userId !== loggedUser.userId &&
+                data.reportToUserName === loginUser &&
+                data.unread !== "false"
+            );
+
+            setNotiData([...filterTaskData, ...filterNotiData]);
+            setNotiCount(filterTaskData.length + filterNotiData.length);
+          })
+          .catch(() => {
+            setDialogMsg(commonConstants.Network_Err);
+          });
       } catch (error) {
         setDialogMsg(commonConstants.Network_Err);
       }

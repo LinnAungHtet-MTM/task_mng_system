@@ -12,4 +12,3 @@ router.post("/forget-password", authController_1.forgetPassword);
 router.post("/reset-password/:id", authController_1.resetPassword);
 router.post("/verify/:token", authController_1.verifyAccount);
 exports.default = router;
-//# sourceMappingURL=authRoute.js.map

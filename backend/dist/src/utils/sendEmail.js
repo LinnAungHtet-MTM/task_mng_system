@@ -28,4 +28,3 @@ const sendEmail = (email, subject, text) => {
     });
 };
 exports.default = sendEmail;
-//# sourceMappingURL=sendEmail.js.map

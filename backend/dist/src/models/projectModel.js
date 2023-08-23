@@ -9,4 +9,3 @@ const projectModel = new mongoose_1.Schema({
     endDate: { type: String, required: true },
 });
 exports.default = (0, mongoose_1.model)("project", projectModel);
-//# sourceMappingURL=projectModel.js.map
