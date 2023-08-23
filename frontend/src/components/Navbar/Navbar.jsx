@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "/img/logo.png";
 import {
   Row,
   Col,
@@ -388,7 +389,7 @@ const Navbar = () => {
         >
           <Col xs={16} sm={12} md={8} lg={3}>
             <Link className="icon-text" to="/dashboard">
-              <img src="/public/img/logo.png" width={40} alt="" />
+              <img src={logo} width={40} alt="" />
               Task Management System
             </Link>
           </Col>

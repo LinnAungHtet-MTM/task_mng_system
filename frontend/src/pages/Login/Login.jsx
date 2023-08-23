@@ -39,6 +39,10 @@ const Login = () => {
           setOpen(true);
           setDialogMsg(commonConstants.Network_Err);
           setLoading(false);
+        } else if (err.code === "ERR_BAD_REQUEST") {
+          setOpen(true);
+          setDialogMsg(err.response.data.error);
+          setLoading(false);
         }
       });
   };
