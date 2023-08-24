@@ -42,7 +42,9 @@ const updateTaskNotiService = async (
   next: NextFunction
 ) => {
   try {
-    const notiData = req.body;
+    const notiData = {
+      $push: req.body,
+    };
     const noti = await notiTaskDB.findById(req.params.id);
     if (noti) {
       const data = await notiTaskDB.findByIdAndUpdate(noti._id, notiData);

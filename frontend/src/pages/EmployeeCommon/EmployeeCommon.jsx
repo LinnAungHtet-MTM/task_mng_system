@@ -65,26 +65,9 @@ const EmployeeCommon = () => {
         employee
           .getById(id)
           .then((res) => {
-            // let profileValue = null;
-            // const profileString =
-            //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsf_0pUDPlKJNpqfEG_XdAlEqXl0ARhJ82BMEHJDA8bPTV_J_b70U_QSG6wQETB4kvVgM&usqp=CAU";
-            // if (res.data.data.profile !== profileString) {
-            //   profileValue = [
-            //     {
-            //       uid: "-1",
-            //       name: "image.png",
-            //       status: "done",
-            //       url: res.data.data.profile,
-            //     },
-            //   ];
-            // } else {
-            //   setHideUpload(false);
-            //   form.setFieldsValue({ profile: null });
-            // }
             form.setFieldsValue({
               employeeName: res.data.data.employeeName,
               email: res.data.data.email,
-              // profile: profileValue,
               profile: res.data.data.profile
                 ? [
                     {

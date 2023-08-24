@@ -45,7 +45,9 @@ const createTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void
 exports.createTaskNotiService = createTaskNotiService;
 const updateTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const notiData = req.body;
+        const notiData = {
+            $push: req.body,
+        };
         const noti = yield socketTask_1.default.findById(req.params.id);
         if (noti) {
             const data = yield socketTask_1.default.findByIdAndUpdate(noti._id, notiData);

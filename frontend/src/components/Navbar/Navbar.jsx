@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "/img/logo.png";
 import {
   Row,
   Col,
@@ -26,6 +25,7 @@ import { socket } from "../Noti/socket";
 import { commonConstants } from "../../constants/message";
 import useAuth from "../../hooks/useAuth";
 import { menuItems } from "../../constants/navitem";
+import logo from "/img/logo.png";
 import { appContext, verifyContext } from "../../constants/appContext";
 import "./Navbar.css";
 
@@ -73,8 +73,6 @@ const Navbar = () => {
     setCurrentMenuItem(location.pathname);
   }, [location.pathname, setCurrentMenuItem]);
 
-  //  ----------------- report noti -------------
-
   const fetchReportNoti = async () => {
     if (user) {
       try {
@@ -109,7 +107,7 @@ const Navbar = () => {
             data.userId !== loggedUser.userId &&
             (data.assignEmployeeId === loggedUser.userId ||
               userType.type === "0") &&
-            data.unread !== "false"
+            !data.read.includes(loggedUser.userId)
         );
 
         return filterData;
@@ -150,35 +148,6 @@ const Navbar = () => {
   useEffect(() => {
     if (user) {
       try {
-        // const loggedUser = JSON.parse(user);
-        // const userType = jwt(loggedUser.token);
-        // taskNoti.getAll().then((res) => {
-        //   if (res.data.data[0].status === "task") {
-        //     const taskNoti = res.data.data;
-        //     const filterTaskData = taskNoti.filter(
-        //       (data) =>
-        //         data.userId !== loggedUser.userId &&
-        //         (data.assignEmployeeId === loggedUser.userId ||
-        //           userType.type === "0") &&
-        //         data.unread !== "false"
-        //     );
-        //     setNotiData(filterTaskData);
-        //     setNotiCount(filterTaskData.length);
-        //   } else {
-        //     return;
-        //   }
-        // });
-        // noti.getAll().then((res) => {
-        //   const notifications = res.data.data;
-        //   const filterData = notifications.filter(
-        //     (data) =>
-        //       data.userId !== loggedUser.userId &&
-        //       data.reportToUserName === loginUser &&
-        //       data.unread !== "false"
-        //   );
-        //   setNotiData(filterData);
-        //   setNotiCount(filterData.length);
-        // });
         const loggedUser = JSON.parse(user);
         const userType = jwt(loggedUser.token);
 
@@ -192,7 +161,7 @@ const Navbar = () => {
                 data.userId !== loggedUser.userId &&
                 (data.assignEmployeeId === loggedUser.userId ||
                   userType.type === "0") &&
-                data.unread !== "false"
+                !data.read.includes(loggedUser.userId)
             );
 
             const filterNotiData = notiData.filter(
@@ -214,89 +183,6 @@ const Navbar = () => {
     }
   }, [loginUser, user]);
 
-  // ------------------------------------------------------------------
-
-  //--------------------------------  testing ---------------------------
-
-  // useEffect(() => {
-  //   const fetchAndFilterNotifications = async () => {
-  //     if (user) {
-  //       try {
-  //         const loggedUser = JSON.parse(user);
-  //         const userType = jwt(loggedUser.token);
-  //         const res = await noti.getAll();
-  //         const notifications = res.data.data;
-
-  //         const filterData = notifications.filter((data) => {
-  //           if (data.status === "report") {
-  //             console.log("THis is report");
-  //             return (
-  //               data.userId !== loggedUser.userId &&
-  //               data.reportToUserName === loginUser &&
-  //               data.unread !== "false"
-  //             );
-  //           } else {
-  //             console.log("THis is task");
-  //             console.log(data);
-  //             return (
-  //               data.userId !== loggedUser.userId &&
-  //               (data.assignEmployeeId === loggedUser.userId ||
-  //                 userType.type === "0") &&
-  //               data.unread !== "false"
-  //             );
-  //           }
-  //         });
-  //         console.log(filterData);
-  //         setNotiData(filterData);
-  //         setNotiCount(filterData.length);
-  //       } catch (error) {
-  //         setDialogMsg(commonConstants.Network_Err);
-  //       }
-  //     }
-  //   };
-
-  //   const handleReportCreate = () => {
-  //     fetchAndFilterNotifications();
-  //   };
-
-  //   socket.on("reportCreate", handleReportCreate);
-  //   socket.on("taskCreate", handleReportCreate);
-
-  //   return () => {
-  //     socket.off("reportCreate", handleReportCreate);
-  //     socket.off("taskCreate", handleReportCreate);
-  //   };
-  // }, [user, loginUser]);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     try {
-  //       const loggedUser = JSON.parse(user);
-  //       const userType = jwt(loggedUser.token);
-  //       noti.getAll().then((res) => {
-  //         const notifications = res.data.data;
-
-  //         const filterData = notifications.filter((data) =>
-  //           data.status === "report"
-  //             ? data.userId !== loggedUser.userId &&
-  //               data.reportToUserName === loginUser &&
-  //               data.unread !== "false"
-  //             : data.userId !== loggedUser.userId &&
-  //               (data.assignEmployeeId === loggedUser.userId ||
-  //                 userType.type === "0") &&
-  //               data.unread !== "false"
-  //         );
-  //         setNotiData(filterData);
-  //         setNotiCount(filterData.length);
-  //       });
-  //     } catch (error) {
-  //       setDialogMsg(commonConstants.Network_Err);
-  //     }
-  //   }
-  // }, [loginUser, user]);
-
-  // ---------------------------------------------------------------------
-
   const showDrawer = () => {
     setOpen(true);
   };
@@ -311,6 +197,7 @@ const Navbar = () => {
   };
 
   const handleClick = (id, notification) => {
+    const userLogged = JSON.parse(user);
     setNotiData((prevNotiData) =>
       prevNotiData.filter((noti) => noti._id !== id)
     );
@@ -319,8 +206,7 @@ const Navbar = () => {
     };
     notification.status !== "task"
       ? noti.edit(id, payload)
-      : taskNoti.edit(id, payload);
-    // noti.edit(id, payload);
+      : taskNoti.edit(id, { read: userLogged.userId });
   };
 
   const content = (
@@ -357,9 +243,6 @@ const Navbar = () => {
                 </span>{" "}
                 {notification.status !== "task" ? "and" : ""}{" "}
                 <span className="noti-title">
-                  {/* {employee
-                    .getById(notification.assignEmployeeId)
-                    .then((res) => setAssignEmployee(res.employeeName))} */}
                   {notification.status !== "task" ? notification.title : ""}
                 </span>
               </div>

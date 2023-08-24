@@ -494,7 +494,6 @@ const CreateReport = () => {
           profile: profile,
           userId,
           reportToUserName: admin,
-          // status: "report",
         };
       });
       noti.add(data);

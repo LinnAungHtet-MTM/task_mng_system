@@ -43,7 +43,6 @@ const CommonTask = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-
   const { pathname } = useLocation();
 
   const user = localStorage.getItem("user");
