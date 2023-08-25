@@ -24,9 +24,10 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { employee, task } from "../../services/httpServices";
+import { EmployeeNoti, employee, task } from "../../services/httpServices";
 import { commonConstants } from "../../constants/message";
 import "./EmployeeList.css";
+import { socket } from "../../components/Noti/socket";
 
 const { confirm } = Modal;
 const visible = false;
@@ -38,9 +39,21 @@ const EmployeeList = () => {
   const [employeeListData, setEmployeeListData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loginUserName, setLoginUserName] = useState("");
+  const [profile, setProfile] = useState("");
 
   const user = localStorage.getItem("user");
   const loginUser = JSON.parse(user);
+
+  useEffect(() => {
+    const { userId } = JSON.parse(user);
+    if (user) {
+      employee.getById(userId).then((res) => {
+        setLoginUserName(res.data.data.employeeName);
+        setProfile(res.data.data.profile);
+      });
+    }
+  }, [user]);
 
   const columns = [
     {
@@ -228,6 +241,16 @@ const EmployeeList = () => {
                 const employeeData = employeeListData.filter(
                   (data) => data._id !== record._id
                 );
+                const data = {
+                  EmployeeName: record.employeeName,
+                  createdBy: loginUserName,
+                  profile: profile,
+                  type: "deleted",
+                  status: "employee",
+                  userId: loginUser.userId,
+                };
+                EmployeeNoti.add(data);
+                socket.emit("deleteEmployee", data);
                 message.success("Employee Deleted Successfully");
                 setLoading(false);
                 setFilterData(employeeData);

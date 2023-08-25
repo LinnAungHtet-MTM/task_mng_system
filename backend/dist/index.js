@@ -14,6 +14,7 @@ const reportRoute_1 = __importDefault(require("./src/routes/reportRoute"));
 const authRoute_1 = __importDefault(require("./src/routes/authRoute"));
 const notiRoute_1 = __importDefault(require("./src/routes/notiRoute"));
 const notiTaskRoute_1 = __importDefault(require("./src/routes/notiTaskRoute"));
+const notiEmployeeRoute_1 = __importDefault(require("./src/routes/notiEmployeeRoute"));
 const cloudinary_1 = require("cloudinary");
 const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
@@ -40,6 +41,7 @@ app.use("/api/report", reportRoute_1.default);
 app.use("/auth", authRoute_1.default);
 app.use("/api/notification", notiRoute_1.default);
 app.use("/api/taskNoti", notiTaskRoute_1.default);
+app.use("/api/EmployeeNoti", notiEmployeeRoute_1.default);
 mongoose_1.default
     .connect(process.env.MONGO_URL || "")
     .then(() => {

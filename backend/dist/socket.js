@@ -20,6 +20,24 @@ const configSocket = (socket) => {
         socket.on("taskUpdate", () => {
             socket.broadcast.emit("taskUpdate");
         });
+        socket.on("createEmployee", () => {
+            socket.broadcast.emit("employeeCreated");
+        });
+        socket.on("editEmployee", () => {
+            socket.broadcast.emit("employeeEdit");
+        });
+        socket.on("deleteEmployee", () => {
+            socket.broadcast.emit("employeeDelete");
+        });
+        socket.on("createProject", () => {
+            socket.broadcast.emit("projectCreate");
+        });
+        socket.on("editProject", () => {
+            socket.broadcast.emit("projectEdit");
+        });
+        socket.on("deleteProject", () => {
+            socket.broadcast.emit("projectDelete");
+        });
     });
 };
 exports.configSocket = configSocket;

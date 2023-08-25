@@ -20,9 +20,15 @@ import {
   EditOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-import { project, task } from "../../services/httpServices";
+import {
+  EmployeeNoti,
+  employee,
+  project,
+  task,
+} from "../../services/httpServices";
 import { commonConstants } from "../../constants/message";
 import "./ProjectList.css";
+import { socket } from "../../components/Noti/socket";
 
 const { confirm } = Modal;
 
@@ -33,9 +39,20 @@ const ProjectList = () => {
   const [dialogMsg, setDialogMsg] = useState("");
   const [projectLists, setProjectList] = useState([]);
   const [filterProject, setFilterProject] = useState([]);
-  // const [currentPage, setCurrentPage] = useState(1);
+  const [loginUserName, setLoginUserName] = useState("");
+  const [profile, setProfile] = useState("");
 
-  // const pageSize = 5;
+  const user = localStorage.getItem("user");
+  const { userId } = JSON.parse(user);
+
+  useEffect(() => {
+    if (user) {
+      employee.getById(userId).then((res) => {
+        setLoginUserName(res.data.data.employeeName);
+        setProfile(res.data.data.profile);
+      });
+    }
+  }, [userId, user]);
 
   useEffect(() => {
     const apiData = async () => {
@@ -160,6 +177,16 @@ const ProjectList = () => {
                 const newProjectData = projectLists.filter(
                   (data) => data._id !== record._id
                 );
+                const data = {
+                  createdBy: loginUserName,
+                  userId,
+                  profile,
+                  status: "project",
+                  type: "deleted",
+                  project: record.projectName,
+                };
+                EmployeeNoti.add(data);
+                socket.emit("deleteProject", data);
                 setLoading(false);
                 message.success("Project Deleted Successfully");
                 setProjectList(newProjectData);
@@ -295,9 +322,7 @@ const ProjectList = () => {
         loading={loading}
         scroll={{ x: 1300 }}
         pagination={{
-          // current: currentPage,
           pageSize: 5,
-          // onChange: (page) => setCurrentPage(page),
         }}
       />
     </>

@@ -9,6 +9,7 @@ import reportRouter from "./src/routes/reportRoute";
 import authRouter from "./src/routes/authRoute";
 import notiRouter from "./src/routes/notiRoute";
 import notiTaskRouter from "./src/routes/notiTaskRoute";
+import notiEmployeeRouter from "./src/routes/notiEmployeeRoute";
 import { v2 as cloudinary } from "cloudinary";
 import http from "http";
 import cors from "cors";
@@ -43,6 +44,7 @@ app.use("/api/report", reportRouter);
 app.use("/auth", authRouter);
 app.use("/api/notification", notiRouter);
 app.use("/api/taskNoti", notiTaskRouter);
+app.use("/api/EmployeeNoti", notiEmployeeRouter);
 
 mongoose
   .connect(process.env.MONGO_URL || "")

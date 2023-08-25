@@ -49,6 +49,8 @@
 
 .ant-popover-inner {
   width: 300px !important;
+  height: 160px !important;
+  overflow: auto !important;
 }
 
 .notification-box {

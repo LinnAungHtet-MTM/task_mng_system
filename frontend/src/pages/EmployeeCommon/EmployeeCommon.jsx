@@ -29,10 +29,10 @@ import {
 } from "@ant-design/icons";
 import jwt from "jwt-decode";
 import dayjs from "dayjs";
-import { employee } from "../../services/httpServices";
+import { EmployeeNoti, employee } from "../../services/httpServices";
 import { commonConstants } from "../../constants/message";
-import { socket } from "../../components/Noti/socket";
 import "./EmployeeCommon.css";
+import { socket } from "../../components/Noti/socket";
 
 const EmployeeCommon = () => {
   const [locationUrl, setLocationUrl] = useState("");
@@ -44,6 +44,8 @@ const EmployeeCommon = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [gettingData, setGettingData] = useState(true);
+  const [loginUserName, setLoginUserName] = useState("");
+  const [profile, setProfile] = useState("");
   const [dialogMsg, setDialogMsg] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -113,6 +115,16 @@ const EmployeeCommon = () => {
   const user = localStorage.getItem("user");
   const { token } = JSON.parse(user);
   const position = jwt(token);
+
+  useEffect(() => {
+    if (user) {
+      const { userId } = JSON.parse(user);
+      employee.getById(userId).then((res) => {
+        setLoginUserName(res.data.data.employeeName);
+        setProfile(res.data.data.profile);
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     if (location.pathname.includes("/add")) {
@@ -211,21 +223,41 @@ const EmployeeCommon = () => {
           formData.set("profile", values.profile[0].originFileObj);
         }
         setIsDisabled(true);
+        const loginUser = JSON.parse(user);
         await employee.edit(userId, formData);
+        const data = {
+          EmployeeName: values.employeeName,
+          createdBy: loginUserName,
+          profile: profile,
+          type: "edited",
+          status: "employee",
+          userId: loginUser.userId,
+        };
+        {
+          loginUser.userId !== userId && (await EmployeeNoti.add(data));
+          socket.emit("editEmployee", data);
+        }
         message.success("Employee Updated Successfully ");
         setIsDisabled(false);
         navigate(position.type === "0" ? "/employee/list" : "/profile");
       } else {
         setIsDisabled(true);
+        const loginUser = JSON.parse(user);
         await employee.add(formData).then(() => {
-          const user = localStorage.getItem("user");
-          const { token } = JSON.parse(user);
-          const loginUser = jwt(token);
-          socket.emit("createEmployee", loginUser);
+          const data = {
+            EmployeeName: values.employeeName,
+            createdBy: loginUserName,
+            profile: profile,
+            type: "created",
+            status: "employee",
+            userId: loginUser.userId,
+          };
+          EmployeeNoti.add(data);
+          socket.emit("createEmployee", data);
+          message.success(commonConstants.Employee_Create);
+          setIsDisabled(false);
+          navigate("/employee/list");
         });
-        message.success(commonConstants.Employee_Create);
-        setIsDisabled(false);
-        navigate("/employee/list");
       }
     } catch (err) {
       if (err.code === "ERR_NETWORK" || err?.response?.status === 500) {

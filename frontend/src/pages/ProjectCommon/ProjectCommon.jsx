@@ -21,9 +21,10 @@ import {
   CloseCircleFilled,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { project } from "../../services/httpServices";
+import { EmployeeNoti, employee, project } from "../../services/httpServices";
 import { commonConstants } from "../../constants/message";
 import "./ProjectCommon.css";
+import { socket } from "../../components/Noti/socket";
 
 const CreateProject = () => {
   const { id } = useParams();
@@ -32,11 +33,25 @@ const CreateProject = () => {
   const [loading, setLoading] = useState(false);
   const [gettingData, setGettingData] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [loginUserName, setLoginUserName] = useState("");
+  const [profile, setProfile] = useState("");
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState(false);
   const [dialogMsg, setDialogMsg] = useState("");
 
   const { pathname } = useLocation();
+
+  const user = localStorage.getItem("user");
+  const { userId } = JSON.parse(user);
+
+  useEffect(() => {
+    if (user) {
+      employee.getById(userId).then((res) => {
+        setLoginUserName(res.data.data.employeeName);
+        setProfile(res.data.data.profile);
+      });
+    }
+  }, [userId, user]);
 
   useEffect(() => {
     const getProjectData = async () => {
@@ -102,6 +117,16 @@ const CreateProject = () => {
         .edit(id, payload)
         .then(() => {
           setLoading(false);
+          const data = {
+            createdBy: loginUserName,
+            userId,
+            profile,
+            status: "project",
+            type: "edited",
+            project: payload.projectName,
+          };
+          EmployeeNoti.add(data);
+          socket.emit("editProject", data);
           message.success("Project Updated Successfully");
           setIsDisabled(false);
           navigate("/project/list");
@@ -118,6 +143,16 @@ const CreateProject = () => {
         .add(payload)
         .then(() => {
           setLoading(false);
+          const data = {
+            createdBy: loginUserName,
+            userId,
+            profile,
+            status: "project",
+            type: "created",
+            project: payload.projectName,
+          };
+          EmployeeNoti.add(data);
+          socket.emit("createProject", data);
           message.success("Project Created Successfully");
           setIsDisabled(false);
           navigate("/project/list");

@@ -11,3 +11,5 @@ export const report = create("/report");
 export const noti = create("/notification");
 
 export const taskNoti = create("/taskNoti");
+
+export const EmployeeNoti = create("/EmployeeNoti");

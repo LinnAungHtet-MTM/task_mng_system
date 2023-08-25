@@ -20,7 +20,12 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 import jwt from "jwt-decode";
-import { employee, noti, taskNoti } from "../../services/httpServices";
+import {
+  EmployeeNoti,
+  employee,
+  noti,
+  taskNoti,
+} from "../../services/httpServices";
 import { socket } from "../Noti/socket";
 import { commonConstants } from "../../constants/message";
 import useAuth from "../../hooks/useAuth";
@@ -117,11 +122,36 @@ const Navbar = () => {
     }
   };
 
+  const fetchEmployeeNoti = async () => {
+    if (user) {
+      try {
+        const loggedUser = JSON.parse(user);
+        const userType = jwt(loggedUser.token);
+        const res = await EmployeeNoti.getAll();
+        const notifications = res.data.data;
+        const filterData = notifications.filter(
+          (data) =>
+            data.userId !== loggedUser.userId &&
+            userType.type === "0" &&
+            !data.read.includes(loggedUser.userId)
+        );
+        return filterData;
+      } catch (error) {
+        setDialogMsg(commonConstants.Network_Err);
+      }
+    }
+  };
+
   useEffect(() => {
     const updateNotificationData = async () => {
       const reportNotiData = await fetchReportNoti();
       const taskNotiData = await fetchTaskNoti();
-      const combinedNotiData = [...reportNotiData, ...taskNotiData];
+      const employeeNotiData = await fetchEmployeeNoti();
+      const combinedNotiData = [
+        ...reportNotiData,
+        ...taskNotiData,
+        ...employeeNotiData,
+      ];
       setNotiData(combinedNotiData);
       setNotiCount(combinedNotiData.length);
     };
@@ -134,14 +164,30 @@ const Navbar = () => {
       await updateNotificationData();
     };
 
+    const handleEmployeeCreate = async () => {
+      await updateNotificationData();
+    };
+
     socket.on("reportCreate", handleReportCreate);
     socket.on("taskCreate", handleTaskCreate);
     socket.on("taskUpdate", handleTaskCreate);
+    socket.on("employeeCreated", handleEmployeeCreate);
+    socket.on("employeeEdit", handleEmployeeCreate);
+    socket.on("employeeDelete", handleEmployeeCreate);
+    socket.on("projectCreate", handleEmployeeCreate);
+    socket.on("projectEdit", handleEmployeeCreate);
+    socket.on("projectDelete", handleEmployeeCreate);
 
     return () => {
       socket.off("reportCreate", handleReportCreate);
       socket.off("taskCreate", handleTaskCreate);
       socket.off("taskUpdate", handleTaskCreate);
+      socket.off("employeeCreated", handleEmployeeCreate);
+      socket.off("employeeEdit", handleEmployeeCreate);
+      socket.off("employeeDelete", handleEmployeeCreate);
+      socket.off("projectCreate", handleEmployeeCreate);
+      socket.off("projectEdit", handleEmployeeCreate);
+      socket.off("projectDelete", handleEmployeeCreate);
     };
   }, []);
 
@@ -151,10 +197,11 @@ const Navbar = () => {
         const loggedUser = JSON.parse(user);
         const userType = jwt(loggedUser.token);
 
-        Promise.all([taskNoti.getAll(), noti.getAll()])
-          .then(([taskNotiResponse, notiResponse]) => {
+        Promise.all([taskNoti.getAll(), noti.getAll(), EmployeeNoti.getAll()])
+          .then(([taskNotiResponse, notiResponse, employeeNotiResponse]) => {
             const taskNotiData = taskNotiResponse.data.data;
             const notiData = notiResponse.data.data;
+            const employeeNotiData = employeeNotiResponse.data.data;
 
             const filterTaskData = taskNotiData.filter(
               (data) =>
@@ -171,8 +218,23 @@ const Navbar = () => {
                 data.unread !== "false"
             );
 
-            setNotiData([...filterTaskData, ...filterNotiData]);
-            setNotiCount(filterTaskData.length + filterNotiData.length);
+            const filterEmployeeData = employeeNotiData.filter(
+              (data) =>
+                data.userId !== loggedUser.userId &&
+                userType.type === "0" &&
+                !data.read.includes(loggedUser.userId)
+            );
+
+            setNotiData([
+              ...filterTaskData,
+              ...filterNotiData,
+              ...filterEmployeeData,
+            ]);
+            setNotiCount(
+              filterTaskData.length +
+                filterNotiData.length +
+                filterEmployeeData.length
+            );
           })
           .catch(() => {
             setDialogMsg(commonConstants.Network_Err);
@@ -196,7 +258,7 @@ const Navbar = () => {
     right: "12px",
   };
 
-  const handleClick = (id, notification) => {
+  const onclickNotification = (id, notification) => {
     const userLogged = JSON.parse(user);
     setNotiData((prevNotiData) =>
       prevNotiData.filter((noti) => noti._id !== id)
@@ -204,9 +266,55 @@ const Navbar = () => {
     const payload = {
       unread: false,
     };
-    notification.status !== "task"
-      ? noti.edit(id, payload)
-      : taskNoti.edit(id, { read: userLogged.userId });
+    if (notification.status === "task") {
+      return taskNoti.edit(id, { read: userLogged.userId });
+    } else if (notification.status === "employee") {
+      return EmployeeNoti.edit(id, { read: userLogged.userId });
+    } else if (notification.status === "project") {
+      return EmployeeNoti.edit(id, { read: userLogged.userId });
+    } else {
+      return noti.edit(id, payload);
+    }
+  };
+
+  const handleClick = (id, notification) => {
+    onclickNotification(id, notification);
+  };
+
+  const notificationTypeText = (notification) => {
+    if (notification.status === "task") {
+      return notification.taskCreated;
+    } else if (notification.status === "employee") {
+      return notification.createdBy;
+    } else if (notification.status === "project") {
+      return notification.createdBy;
+    } else {
+      return notification.report_by;
+    }
+  };
+
+  const notificationActionText = (notification) => {
+    if (notification.status === "task") {
+      return "created task title";
+    } else if (notification.status === "employee") {
+      return `${notification.type} new employee`;
+    } else if (notification.status === "project") {
+      return `${notification.type} new project`;
+    } else {
+      return "reported on";
+    }
+  };
+
+  const notificationMainText = (notification) => {
+    if (notification.status === "task") {
+      return notification.title;
+    } else if (notification.status === "employee") {
+      return notification.EmployeeName;
+    } else if (notification.status === "project") {
+      return notification.project;
+    } else {
+      return notification.project;
+    }
   };
 
   const content = (
@@ -215,7 +323,7 @@ const Navbar = () => {
         notiData.map((notification) => (
           <div
             onClick={() => handleClick(notification._id, notification)}
-            className={`noti-line ${notification.unread ? "noti-bg" : ""}`}
+            className={`noti-line noti-bg`}
             key={notification._id}
           >
             <div className="notification-box">
@@ -226,24 +334,24 @@ const Navbar = () => {
               />
               <div className="noti-span">
                 <span className="noti-name">
-                  <i>
-                    {notification.status === "task"
-                      ? notification.taskCreated
-                      : notification.report_by}
-                  </i>
+                  <i>{notificationTypeText(notification)}</i>
                 </span>{" "}
-                {notification.status !== "task"
-                  ? "reported on"
-                  : "created task title"}{" "}
+                {notificationActionText(notification)}
                 <span className="noti-project">
                   {" "}
-                  {notification.status !== "task"
-                    ? notification.project
-                    : notification.title}{" "}
+                  {notificationMainText(notification)}
                 </span>{" "}
-                {notification.status !== "task" ? "and" : ""}{" "}
+                {notification.status !== "task" &&
+                notification.status !== "employee" &&
+                notification.status !== "project"
+                  ? "and"
+                  : ""}{" "}
                 <span className="noti-title">
-                  {notification.status !== "task" ? notification.title : ""}
+                  {notification.status !== "task" &&
+                  notification.status !== "employee" &&
+                  notification.status !== "project"
+                    ? notification.title
+                    : ""}
                 </span>
               </div>
             </div>
