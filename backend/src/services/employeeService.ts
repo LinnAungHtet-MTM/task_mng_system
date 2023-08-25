@@ -81,7 +81,7 @@ const createEmployeeService = async (
         verified: false,
       }).save();
 
-      const verifyLink = `${process.env.CLIENT_URL}/verify?token=${token}`;
+      const verifyLink = `https://task-mng-system.vercel.app/verify?token=${token}`;
       const text = `Hello,\n\n Your Email is: ${email} \n\n Your random password is: ${randomPassword}\n\n You can use this password to log in.\n\n Please Click the following link to verify your account! \n\n ${verifyLink}`;
 
       sendEmail(email, "Your Randomly Generated Password", text);
