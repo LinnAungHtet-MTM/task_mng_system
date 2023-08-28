@@ -272,7 +272,6 @@ const CommonTask = () => {
                       (userType.type === "Member" || userType.type === "1") &&
                       id
                     }
-                    size="large"
                     style={{ width: "100%" }}
                     placeholder="Select project"
                     options={selectProject}
@@ -301,7 +300,6 @@ const CommonTask = () => {
                       (userType.type === "Member" || userType.type === "1") &&
                       id
                     }
-                    size="large"
                     options={selectEmployee}
                     placeholder="Select Employee"
                   />
@@ -335,7 +333,6 @@ const CommonTask = () => {
                       (userType.type === "Member" || userType.type === "1") &&
                       id
                     }
-                    size="large"
                     style={{ width: "100%" }}
                     placeholder="Enter title"
                   />
@@ -361,7 +358,7 @@ const CommonTask = () => {
                       },
                     ]}
                   >
-                    <Select size="large" options={selectOption} />
+                    <Select options={selectOption} />
                   </Form.Item>
                 )}
               </Col>
@@ -387,7 +384,6 @@ const CommonTask = () => {
                       (userType.type === "Member" || userType.type === "1") &&
                       id
                     }
-                    size="large"
                     placeholder="Enter Description"
                   />
                 </Form.Item>
@@ -418,7 +414,6 @@ const CommonTask = () => {
                   >
                     <InputNumber
                       style={{ width: "100%" }}
-                      size="large"
                       placeholder="Actual hour"
                     />
                   </Form.Item>
@@ -457,7 +452,6 @@ const CommonTask = () => {
                       id
                     }
                     style={{ width: "100%" }}
-                    size="large"
                     placeholder="Estimate hour"
                   />
                 </Form.Item>
@@ -473,7 +467,6 @@ const CommonTask = () => {
                       (userType.type === "Member" || userType.type === "1") &&
                       id
                     }
-                    size="large"
                     style={{ width: "100%" }}
                     placeholder="yyyy-mm-dd"
                   />
@@ -492,7 +485,6 @@ const CommonTask = () => {
                       (userType.type === "Member" || userType.type === "1") &&
                       id
                     }
-                    size="large"
                     style={{ width: "100%" }}
                     placeholder="yyyy-mm-dd"
                   />
@@ -506,7 +498,6 @@ const CommonTask = () => {
                     name="actual_start_date"
                   >
                     <DatePicker
-                      size="large"
                       style={{ width: "100%" }}
                       placeholder="yyyy-mm-dd"
                     />
@@ -522,7 +513,6 @@ const CommonTask = () => {
                     rules={[endDateVaildate("actual_start_date")]}
                   >
                     <DatePicker
-                      size="large"
                       style={{ width: "100%" }}
                       placeholder="yyyy-mm-dd"
                     />

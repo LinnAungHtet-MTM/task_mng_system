@@ -278,19 +278,19 @@ const EmployeeList = () => {
         return (
           data.email
             .toLowerCase()
-            .includes(formValues.employeeEmail.toLowerCase()) &&
+            .includes(formValues.employeeEmail.toLowerCase().trim()) &&
           data.employeeName
             .toLowerCase()
-            .includes(formValues.employeeName.toLowerCase())
+            .includes(formValues.employeeName.toLowerCase().trim())
         );
       } else if (formValues.employeeEmail) {
         return data.email
           .toLowerCase()
-          .includes(formValues.employeeEmail.toLowerCase());
+          .includes(formValues.employeeEmail.toLowerCase().trim());
       } else if (formValues.employeeName) {
         return data.employeeName
           .toLowerCase()
-          .includes(formValues.employeeName.toLowerCase());
+          .includes(formValues.employeeName.toLowerCase().trim());
       }
       return true;
     });

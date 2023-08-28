@@ -7,7 +7,7 @@ const getAllNotificationService = async (
   next: NextFunction
 ) => {
   try {
-    const data = await notiDB.find();
+    const data = await notiDB.find().sort({ createdAt: -1 });
     res
       .status(200)
       .json({ success: true, message: "All Notification data", data });

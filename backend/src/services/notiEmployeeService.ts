@@ -7,7 +7,7 @@ const getAllEmployeeNotiService = async (
   next: NextFunction
 ) => {
   try {
-    const data = await notiEmployeeDB.find();
+    const data = await notiEmployeeDB.find().sort({ createdAt: -1 });
     res
       .status(200)
       .json({ success: true, message: "All Employee Notification data", data });

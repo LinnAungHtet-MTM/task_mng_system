@@ -214,19 +214,19 @@ const ProjectList = () => {
         return (
           projectList.projectName
             .toLowerCase()
-            .includes(formValues.project.toLowerCase()) &&
+            .includes(formValues.project.toLowerCase().trim()) &&
           projectList.language
             .toLowerCase()
-            .includes(formValues.language.toLowerCase())
+            .includes(formValues.language.toLowerCase().trim())
         );
       } else if (formValues.project) {
         return projectList.projectName
           .toLowerCase()
-          .includes(formValues.project.toLowerCase());
+          .includes(formValues.project.toLowerCase().trim());
       } else if (formValues.language) {
         return projectList.language
           .toLowerCase()
-          .includes(formValues.language.toLowerCase());
+          .includes(formValues.language.toLowerCase().trim());
       }
       return true;
     });

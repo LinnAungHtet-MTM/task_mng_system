@@ -28,6 +28,11 @@ const ResetPassword = () => {
         if (err.code === "ERR_NETWORK") {
           setOpen(true);
           setDialogMsg(commonConstants.Network_Err);
+          setLoading(false);
+        } else if (err.response.status === 500) {
+          setOpen(true);
+          setDialogMsg(err.response.data.message);
+          setLoading(false);
         }
       });
   };

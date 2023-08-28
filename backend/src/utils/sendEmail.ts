@@ -13,7 +13,7 @@ const sendEmail = (email: string, subject: string, text: string) => {
     from: process.env.USER,
     to: email,
     subject,
-    text,
+    html: text,
   };
 
   transporter.sendMail(mailOptions, (err, info) => {

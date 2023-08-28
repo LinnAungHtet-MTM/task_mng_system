@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
-
-const employeeSchema = new Schema(
-  {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const employeeSchema = new mongoose_1.Schema({
     EmployeeName: { type: String },
     createdBy: { type: String, required: true },
     userId: { type: String, required: true },
@@ -10,10 +10,7 @@ const employeeSchema = new Schema(
     type: { type: String, required: true },
     project: { type: String },
     read: { type: Array, default: [] },
-  },
-  {
+}, {
     timestamps: true,
-  }
-);
-
-export default model("employeeNoti", employeeSchema);
+});
+exports.default = (0, mongoose_1.model)("employeeNoti", employeeSchema);

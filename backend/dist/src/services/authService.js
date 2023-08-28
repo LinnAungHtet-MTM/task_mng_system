@@ -83,8 +83,11 @@ const forgetPasswordService = (req, res, next) => __awaiter(void 0, void 0, void
         if (!user) {
             return res.status(404).json({ message: "This user does not exists!" });
         }
-        const resetPasswordLink = `Hello,\n\n Please click the following link to reset your password: \n\n https://task-mng-system.vercel.app/reset-password/${user._id}`;
-        (0, sendEmail_1.default)(email, "Reset Password", resetPasswordLink);
+        const resetUrl = `https://task-mng-system.vercel.app/reset-password/${user._id}`;
+        const template = `
+    <p>Hello,<br>Please click the following link to reset your password</p>
+    <a href=${resetUrl}>Reset Password Link</a>`;
+        (0, sendEmail_1.default)(email, "Reset Password", template);
         res.status(200).json({ message: "Reset Password Link send to your email" });
     }
     catch (err) {

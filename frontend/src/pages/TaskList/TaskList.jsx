@@ -296,9 +296,9 @@ const TaskList = () => {
 
   const onSearch = (values) => {
     const { title, project, assigned_member, status } = values;
-    const lowerCaseTitle = title?.toLowerCase();
-    const lowerCaseProjectName = project?.toLowerCase();
-    const lowerCaseAssignedMember = assigned_member?.toLowerCase();
+    const lowerCaseTitle = title?.toLowerCase().trim();
+    const lowerCaseProjectName = project?.toLowerCase().trim();
+    const lowerCaseAssignedMember = assigned_member?.toLowerCase().trim();
 
     const filteredResult = taskList.filter((task) => {
       const matchesTitle =

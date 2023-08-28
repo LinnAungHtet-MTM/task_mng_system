@@ -397,7 +397,7 @@ const Navbar = () => {
             <div className="nav_btn_gps">
               <div className="admin_profile_btn">
                 <Button onClick={() => navigate("/profile")}>
-                  {loginUser}
+                  <p className="truncate">{loginUser}</p>
                 </Button>
               </div>
               <div className="noti_btn">
@@ -517,7 +517,10 @@ const Navbar = () => {
         >
           <Col xs={12} sm={12} md={12} lg={12}>
             <Link to="/" style={{ color: "#08979c", fontWeight: "bold" }}>
-              Task Management System
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <img src={logo} width={40} alt="" />
+                Task Management System
+              </div>
             </Link>
           </Col>
         </Row>

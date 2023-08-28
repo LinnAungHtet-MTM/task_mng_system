@@ -16,7 +16,7 @@ exports.updateNotiService = exports.createNotiService = exports.getAllNotificati
 const socketModel_1 = __importDefault(require("../models/socketModel"));
 const getAllNotificationService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield socketModel_1.default.find();
+        const data = yield socketModel_1.default.find().sort({ createdAt: -1 });
         res
             .status(200)
             .json({ success: true, message: "All Notification data", data });

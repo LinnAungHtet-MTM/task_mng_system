@@ -9,5 +9,5 @@ const notiSchema = new mongoose_1.Schema({
     unread: { type: String, default: true },
     userId: { type: String, required: true },
     reportToUserName: { type: String },
-});
+}, { timestamps: true });
 exports.default = (0, mongoose_1.model)("notification", notiSchema);

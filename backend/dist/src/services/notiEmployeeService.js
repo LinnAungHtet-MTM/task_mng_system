@@ -12,14 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTaskNotiService = exports.createTaskNotiService = exports.getAllTaskNotiService = void 0;
-const socketTask_1 = __importDefault(require("../models/socketTask"));
-const getAllTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateEmployeeNotiService = exports.createEmployeeNotiService = exports.getAllEmployeeNotiService = void 0;
+const socketEmployee_1 = __importDefault(require("../models/socketEmployee"));
+const getAllEmployeeNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield socketTask_1.default.find().sort({ createdAt: -1 });
+        const data = yield socketEmployee_1.default.find().sort({ createdAt: -1 });
         res
             .status(200)
-            .json({ success: true, message: "All Notification data", data });
+            .json({ success: true, message: "All Employee Notification data", data });
     }
     catch (err) {
         res
@@ -27,14 +27,14 @@ const getAllTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void
             .json({ error: err, message: "Failed to get all notification" });
     }
 });
-exports.getAllTaskNotiService = getAllTaskNotiService;
-const createTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllEmployeeNotiService = getAllEmployeeNotiService;
+const createEmployeeNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const notiData = req.body;
-        const data = yield socketTask_1.default.insertMany(notiData);
+        const data = yield socketEmployee_1.default.insertMany(notiData);
         res
             .status(201)
-            .json({ success: true, message: "New Noti List Created", data });
+            .json({ success: true, message: "New Employee Noti List Created", data });
     }
     catch (err) {
         res
@@ -42,15 +42,15 @@ const createTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void
             .json({ error: err, message: "Failed to create notification" });
     }
 });
-exports.createTaskNotiService = createTaskNotiService;
-const updateTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createEmployeeNotiService = createEmployeeNotiService;
+const updateEmployeeNotiService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const notiData = {
             $push: req.body,
         };
-        const noti = yield socketTask_1.default.findById(req.params.id);
+        const noti = yield socketEmployee_1.default.findById(req.params.id);
         if (noti) {
-            const data = yield socketTask_1.default.findByIdAndUpdate(noti._id, notiData);
+            const data = yield socketEmployee_1.default.findByIdAndUpdate(noti._id, notiData);
             res
                 .status(200)
                 .json({ success: true, message: "Noti Updated Successfully", data });
@@ -67,4 +67,4 @@ const updateTaskNotiService = (req, res, next) => __awaiter(void 0, void 0, void
             .json({ error: err, message: "Failed to update notification" });
     }
 });
-exports.updateTaskNotiService = updateTaskNotiService;
+exports.updateEmployeeNotiService = updateEmployeeNotiService;

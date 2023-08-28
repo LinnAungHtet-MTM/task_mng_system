@@ -90,8 +90,13 @@ const forgetPasswordService = async (
       return res.status(404).json({ message: "This user does not exists!" });
     }
 
-    const resetPasswordLink = `Hello,\n\n Please click the following link to reset your password: \n\n https://task-mng-system.vercel.app/reset-password/${user._id}`;
-    sendEmail(email, "Reset Password", resetPasswordLink);
+    const resetUrl = `https://task-mng-system.vercel.app/reset-password/${user._id}`;
+
+    const template = `
+    <p>Hello,<br>Please click the following link to reset your password</p>
+    <a href=${resetUrl}>Reset Password Link</a>`;
+
+    sendEmail(email, "Reset Password", template);
     res.status(200).json({ message: "Reset Password Link send to your email" });
   } catch (err) {
     res.status(500).json({ error: err, message: "Failed to forget password" });

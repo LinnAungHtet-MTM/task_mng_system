@@ -9,5 +9,7 @@ const taskNotiSchema = new mongoose_1.Schema({
     userId: { type: String, required: true },
     status: { type: String, default: "task" },
     taskCreated: { type: String, required: true },
+}, {
+    timestamps: true,
 });
 exports.default = (0, mongoose_1.model)("taskNotification", taskNotiSchema);
